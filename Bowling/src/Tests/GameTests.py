@@ -4,12 +4,12 @@ Created on 26 Sep 2012
 @author: Michali
 '''
 import unittest
-import BowlingGame
+from Game import Game
 
 class GameTests(unittest.TestCase):
 
     def test_calculates_for_no_strike(self):
-        game = BowlingGame.Game()
+        game = Game()
         noOfStruckPins = 5
         
         score = game.roll(noOfStruckPins)
