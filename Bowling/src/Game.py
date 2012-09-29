@@ -7,4 +7,4 @@ Created on 26 Sep 2012
 class Game:
     
     def roll(self, struck_pins):
-        return 5
+        return struck_pins
