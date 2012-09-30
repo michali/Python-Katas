@@ -8,7 +8,7 @@ from Game import Game
 
 class GameTests(unittest.TestCase):
 
-    def test_calculates_for_no_strike(self):
+    def test_calculates_score_no_spare_no_strike(self):
         game = Game()
         noOfStruckPins = 5
         
