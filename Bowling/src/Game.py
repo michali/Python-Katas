@@ -28,19 +28,21 @@ class Game:
     def roll(self, struck_pins):
         self.__add_dropped_pins_to_current_frame(struck_pins)
         
-        if self.__last_frame_was_a_spare() and self.__current_roll_is_first_roll_of_frame():
-            self.__score += 2 * struck_pins     
-        elif self.__last_frame_was_a_strike():
-            self.__score += 2 * struck_pins
-        else:
-            self.__score += struck_pins     
-            
+        self.__calc_score(struck_pins) 
+        
         if self.__current_roll_is_second_roll_of_frame() or self.__current_frame_is_strike():
             self.__curFrameIndex += 1
     
     def __add_dropped_pins_to_current_frame(self, struck_pins):
         self.__frames[self.__curFrameIndex].add_dropped_pins(struck_pins)
         
+    def __calc_score(self, struck_pins):        
+        if (self.__last_frame_was_a_spare() and self.__current_roll_is_first_roll_of_frame()) or self.__last_frame_was_a_strike():
+            self.__score += 2 * struck_pins     
+            return
+        
+        self.__score += struck_pins     
+            
     def __last_frame_was_a_spare(self):
         return self.__frames[self.__curFrameIndex - 1].is_spare()
     
