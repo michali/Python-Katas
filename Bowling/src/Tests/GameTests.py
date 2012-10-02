@@ -37,5 +37,77 @@ class GameTests(unittest.TestCase):
         
         self.assertEqual(28, game.score)
         
+    def test_spare_on_last_frame(self):
+        game = Game()
+        game.roll(0)
+        game.roll(0)
+        
+        game.roll(0)
+        game.roll(0)
+        
+        game.roll(0)
+        game.roll(0)
+        
+        game.roll(0)
+        game.roll(0)
+        
+        game.roll(0)
+        game.roll(0)
+
+        game.roll(0)
+        game.roll(0)
+
+        game.roll(0)
+        game.roll(0)
+
+        game.roll(0)
+        game.roll(0)
+        
+        game.roll(0)
+        game.roll(0)
+        
+        game.roll(5)
+        game.roll(5)   
+        
+        game.roll(1)
+        
+        self.assertEqual(11, game.score)
+        
+    def test_strike_on_last_frame(self):
+        game = Game()
+        game.roll(0)
+        game.roll(0)
+        
+        game.roll(0)
+        game.roll(0)
+        
+        game.roll(0)
+        game.roll(0)
+        
+        game.roll(0)
+        game.roll(0)
+        
+        game.roll(0)
+        game.roll(0)
+
+        game.roll(0)
+        game.roll(0)
+
+        game.roll(0)
+        game.roll(0)
+
+        game.roll(0)
+        game.roll(0)
+        
+        game.roll(0)
+        game.roll(0)
+        
+        game.roll(10)
+        
+        game.roll(1)           
+        game.roll(1)
+        
+        self.assertEqual(12, game.score)
+            
 if __name__ == "__main__":
     unittest.main()

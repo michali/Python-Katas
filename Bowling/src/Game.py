@@ -30,7 +30,7 @@ class Game:
         
         self.__calc_score(struck_pins) 
         
-        if self.__current_roll_is_second_roll_of_frame() or self.__current_frame_is_strike():
+        if not self.__is_last_frame() and (self.__current_roll_is_second_roll_of_frame() or self.__current_frame_is_strike()):
             self.__curFrameIndex += 1
     
     def __add_dropped_pins_to_current_frame(self, struck_pins):
@@ -64,6 +64,12 @@ class Game:
     def __current_frame_is_strike(self):
         return self.__current_frame().is_strike()
     
+    def __current_frame_is_spare(self):
+        return self.__current_frame().is_spare()
+    
+    def __is_last_frame(self):
+        return self.__curFrameIndex == 9
+        
 class Frame:
     
     __no_of_pins = 10
