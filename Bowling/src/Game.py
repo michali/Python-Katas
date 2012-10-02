@@ -41,22 +41,28 @@ class Game:
             self.__score += 2 * struck_pins     
             return
         
-        self.__score += struck_pins     
-            
+        self.__score += struck_pins                
+
+    def __previous_frame(self):
+        return self.__frames[self.__curFrameIndex - 1]
+
     def __last_frame_was_a_spare(self):
-        return self.__frames[self.__curFrameIndex - 1].is_spare()
+        return self.__previous_frame().is_spare()
     
     def __last_frame_was_a_strike(self):
-        return self.__frames[self.__curFrameIndex - 1].is_strike()
-    
+        return self.__previous_frame().is_strike()    
+
+    def __current_frame(self):
+        return self.__frames[self.__curFrameIndex]
+
     def __current_roll_is_first_roll_of_frame(self):
-        return self.__frames[self.__curFrameIndex].first_roll_of_frame
+        return self.__current_frame().first_roll_of_frame
     
     def __current_roll_is_second_roll_of_frame(self):
-        return self.__frames[self.__curFrameIndex].second_roll_of_frame
+        return self.__current_frame().second_roll_of_frame
     
     def __current_frame_is_strike(self):
-        return self.__frames[self.__curFrameIndex].is_strike()
+        return self.__current_frame().is_strike()
     
 class Frame:
     
