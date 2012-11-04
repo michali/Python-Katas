@@ -4,16 +4,8 @@ Created on 4 Nov 2012
 @author: Michali
 '''
 import unittest
-from Node import OperatorNode, ValueNode
+from NodeParser import NodeParser
 
-
-class NodeParser():
-    
-    def parse(self, expression):
-        tree = OperatorNode(lambda x,y:x+y)
-        tree.left = ValueNode(1)
-        tree.right = ValueNode(2)
-        return tree
 
 class NodeParserTests(unittest.TestCase):
 
@@ -24,6 +16,7 @@ class NodeParserTests(unittest.TestCase):
         tree = parser.parse("1+2")
         
         self.assertEqual(3, tree.evaluate())
+        
 
 
 if __name__ == "__main__":
