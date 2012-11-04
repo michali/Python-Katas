@@ -32,7 +32,7 @@ class OperatorNodeTests(unittest.TestCase):
         node.right = ValueNode(5)
         
         self.assertEqual(15, node.evaluate())
-    
+        
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
     unittest.main()
