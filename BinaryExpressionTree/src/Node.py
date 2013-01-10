@@ -12,10 +12,11 @@ class ValueNode:
     def evaluate(self):
         return self.___value
 
-class OperatorNode:
+class OperatorNode(object):
     
     def __init__(self, operation):
         self.__operation = operation
+        self.__left = None        
         
     @property
     def left(self):
