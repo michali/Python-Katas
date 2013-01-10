@@ -17,6 +17,7 @@ Write code that is unit tested that will:
 2. Use anonymous functions for the mathematical operations
 3. Build a binary tree by parsing the string representing the formula in part A
 4. Execute the operations and evaluate the tree by calling only the root tree node
+5. Not use if or switch statements or "new up" objects in objects that are used to define the binary tree. Object used for wiring may use if or switch statements or "new up" objects.
 
 Your code must work with the following:
 
@@ -27,3 +28,4 @@ Your code must work with the following:
  * 2+4*3-5 evaluates to 9
  * 3+4*5+7*3*5-9 evaluates to 119
  * 3+4*5+7*3*5-9/6*2+7 evaluates to 132
+ 
