@@ -9,7 +9,7 @@ import re
 class ReversePolishNotationConverter(object):    
     
     def __init__(self):
-        self.oppattern = re.compile("\+")
+        self.oppattern = re.compile("\+*\-*")
         self.numpattern = re.compile("\d")
     
     def convert(self, infix):
@@ -24,7 +24,7 @@ class ReversePolishNotationConverterTests(unittest.TestCase):
     def setUp(self):
         self.converter = ReversePolishNotationConverter()
 
-    def test_convertsOne(self):
+    def test_convertsOnePlus(self):
         infix = "1+2"
         polish = "12+"
             
@@ -32,9 +32,33 @@ class ReversePolishNotationConverterTests(unittest.TestCase):
         
         self.assertEqual(polish, actual)
         
-    def test_convertsTwo(self):
+    def test_convertsOneMinus(self):
+        infix = "1-2"
+        polish = "12-"
+            
+        actual = self.converter.convert(infix)
+        
+        self.assertEqual(polish, actual)
+        
+    def test_convertsTwoPluses(self):
         infix = "1+2+3"
         polish = "123++"
+            
+        actual = self.converter.convert(infix)
+        
+        self.assertEqual(polish, actual)
+        
+    def test_convertsTwoMinuses(self):
+        infix = "1-2-3"
+        polish = "123--"
+            
+        actual = self.converter.convert(infix)
+        
+        self.assertEqual(polish, actual)
+        
+    def test_convertsPlusAndMinus(self):
+        infix = "1+2-3"
+        polish = "123+-"
             
         actual = self.converter.convert(infix)
         
