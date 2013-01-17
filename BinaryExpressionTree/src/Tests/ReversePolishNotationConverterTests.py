@@ -4,20 +4,7 @@ Created on 15 Jan 2013
 @author: Michali
 '''
 import unittest
-import re
-
-class ReversePolishNotationConverter(object):    
-    
-    def __init__(self):
-        self.oppattern = re.compile("\+*\-*")
-        self.numpattern = re.compile("\d")
-    
-    def convert(self, infix):
-        ops = self.oppattern.findall(infix)
-        nums = self.numpattern.findall(infix)
-        
-        return ''.join(nums) + ''.join(ops)
-
+from ReversePolishNotationConverter import ReversePolishNotationConverter
 
 class ReversePolishNotationConverterTests(unittest.TestCase):
 
@@ -63,3 +50,28 @@ class ReversePolishNotationConverterTests(unittest.TestCase):
         actual = self.converter.convert(infix)
         
         self.assertEqual(polish, actual)
+        
+    def test_convertPlusAndMultiplication(self):
+        infix = "1+2*3"
+        polish = "123*+"
+            
+        actual = self.converter.convert(infix)
+        
+        self.assertEqual(polish, actual)
+        
+    def test_convertPlusAndDivision(self):
+        infix = "1+2/3"
+        polish = "123/+"
+            
+        actual = self.converter.convert(infix)
+        
+        self.assertEqual(polish, actual)
+        
+    def test_convertsPlusMultiplicationPlus(self):
+        infix = "2+4*3+5"
+        polish = "243*5++"
+            
+        actual = self.converter.convert(infix)
+        
+        self.assertEqual(polish, actual)
+        
