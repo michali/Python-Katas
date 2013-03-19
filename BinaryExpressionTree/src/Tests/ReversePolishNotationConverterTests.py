@@ -31,12 +31,30 @@ class ReversePolishNotationConverter(object):
     
     def __append_previous_token(self):
         if len(self.__previousTokens) > 0:
-            self.__append_token(self.__previousTokens.pop())
-     
+            self.__append_token(self.__previousTokens.pop())     
+
     def __handle_operator(self, current):
-        self.__append_previous_token()
+        if self.__previous_executed_before(current):
+            self.__append_previous_token()
         self.__previousTokens.append(current)
-      
+    
+    def __previous_executed_before(self, current):
+        if len(self.__previousTokens) == 0:
+            return False        
+        previousPrecedence = self.__calculate_precedence(self.__peek(self.__previousTokens))
+        currentPrecedence = self.__calculate_precedence(current)        
+        return previousPrecedence >= currentPrecedence
+        
+    def __calculate_precedence(self, current):
+        if current == "*":
+            return 100
+        return 1
+    
+    def __peek(self, stack):
+        lastval = stack.pop()
+        stack.append(lastval)
+        return lastval    
+    
     def __append_token(self, token):
         if (len(self.__result) > 0 and len(token) > 0):
             self.__result += " "
@@ -66,8 +84,7 @@ class ReversePolishNotationConverterTests(unittest.TestCase):
     def test_HandlesMultipleOperatorsOfSamePrecedence(self):
         self.when("a - 5 + 3")
         self.then("a 5 - 3 +")
-    
-    @unittest.skip("has not been implemented")    
+    @unittest.skip("has not been implemented")
     def test_HandlesMultipleOperatorsOfDifferentPrecedence(self):
         self.when("a - 5 * 3")
         self.then("a 5 3 * -")
