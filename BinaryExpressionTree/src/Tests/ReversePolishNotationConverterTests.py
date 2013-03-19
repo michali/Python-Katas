@@ -21,13 +21,19 @@ class ReversePolishNotationConverter(object):
         self.__previousTokens = []
         self.__result = ""
 
+
+    def __append_all_previous_tokens(self):
+        while len(self.__previousTokens) > 0:
+            self.__append_previous_token()
+    
+    
     def __process_tokens(self):
         for current in self.__tokens:
             if (self.__is_literal(current)):
                 self.__append_token(current)
             else:
                 self.__handle_operator(current)        
-        self.__append_previous_token()  
+        self.__append_all_previous_tokens()  
     
     def __append_previous_token(self):
         if len(self.__previousTokens) > 0:
@@ -84,7 +90,7 @@ class ReversePolishNotationConverterTests(unittest.TestCase):
     def test_HandlesMultipleOperatorsOfSamePrecedence(self):
         self.when("a - 5 + 3")
         self.then("a 5 - 3 +")
-    @unittest.skip("has not been implemented")
+
     def test_HandlesMultipleOperatorsOfDifferentPrecedence(self):
         self.when("a - 5 * 3")
         self.then("a 5 3 * -")
