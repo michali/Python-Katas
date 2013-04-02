@@ -21,10 +21,26 @@ class ReversePolishNotationConverter(object):
         self.__previousTokens = []
         self.__result = ""
     
+    def __is_open_parentheses(self, current):
+        return current == "("    
+    
+    def __is_closed_parentheses(self, current):
+        return current == ")"    
+    
+    def __handle_open_parentheses(self):
+        pass    
+    
+    def __handle_closed_parentheses(self):
+        pass    
+    
     def __process_tokens(self):
         for current in self.__tokens:
             if (self.__is_literal(current)):
                 self.__append_token(current)
+            elif self.__is_open_parentheses(current):
+                self.__handle_open_parentheses()
+            elif self.__is_closed_parentheses(current):
+                self.__handle_closed_parentheses()
             else:
                 self.__handle_operator(current)        
         self.__append_all_previous_tokens()  
@@ -41,7 +57,7 @@ class ReversePolishNotationConverter(object):
             self.__append_token(self.__previousTokens.pop())     
 
     def __handle_operator(self, current):
-        if self.__previous_executed_before(current):
+        while self.__previous_executed_before(current):
             self.__append_previous_token()
         self.__previousTokens.append(current)
     
@@ -102,7 +118,11 @@ class ReversePolishNotationConverterTests(unittest.TestCase):
         
     def test_HandlesMultipleOperatorsOfDifferentPrecedence_All_Four(self):
         self.when("a + 5 / 3 - 2 * 8")
-        self.then("a 5 3 / 2 8 * - +")
+        self.then("a 5 3 / + 2 8 * -")
+        
+    def test_RemovesUnneccessaryParameters(self):
+        self.when("( a * 3 ) + 4")
+        self.then("a 3 * 4 +")
             
     def setUp(self):
         self.converter = ReversePolishNotationConverter()
