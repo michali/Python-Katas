@@ -20,19 +20,7 @@ class ReversePolishNotationConverter(object):
         self.__tokens = expWithVal.split()
         self.__previousTokens = []
         self.__result = ""
-    
-    def __is_open_parentheses(self, current):
-        return current == "("    
-    
-    def __is_closed_parentheses(self, current):
-        return current == ")"    
-    
-    def __handle_open_parentheses(self):
-        pass    
-    
-    def __handle_closed_parentheses(self):
-        pass    
-    
+        
     def __process_tokens(self):
         for current in self.__tokens:
             if (self.__is_literal(current)):
@@ -45,6 +33,21 @@ class ReversePolishNotationConverter(object):
                 self.__handle_operator(current)        
         self.__append_all_previous_tokens()  
     
+    def __is_open_parentheses(self, current):
+        return current == "("    
+    
+    def __is_closed_parentheses(self, current):
+        return current == ")"    
+    
+    def __handle_open_parentheses(self):
+        self.__previousTokens.append("(")
+    
+    def __handle_closed_parentheses(self):
+        while self.__peek(self.__previousTokens) and self.__peek(self.__previousTokens) != "(":
+            self.__append_previous_token()
+        
+        self.__previousTokens.pop()
+
     def __append_all_previous_tokens(self):
         while self.__there_are_previous_tokens():
             self.__append_previous_token()  
@@ -57,11 +60,11 @@ class ReversePolishNotationConverter(object):
             self.__append_token(self.__previousTokens.pop())     
 
     def __handle_operator(self, current):
-        while self.__previous_executed_before(current):
+        while self.__previous_token_has_higher_precedence(current):
             self.__append_previous_token()
         self.__previousTokens.append(current)
     
-    def __previous_executed_before(self, current):
+    def __previous_token_has_higher_precedence(self, current):
         if self.__there_are_previous_tokens():    
             previousPrecedence = self.__calculate_precedence(self.__peek(self.__previousTokens))
             currentPrecedence = self.__calculate_precedence(current)        
@@ -71,13 +74,14 @@ class ReversePolishNotationConverter(object):
     def __calculate_precedence(self, current):
         if current == "*" or current == "/":
             return 100
-        return 1
+        if current == "(" or current == ")":
+            return 1
+        return 10
     
     def __peek(self, stack):
-        lastval = stack.pop()
-        stack.append(lastval)
-        return lastval    
-    
+        if len(stack) > 0:
+            return stack[len(stack)-1]    
+
     def __append_token(self, token):
         if (len(self.__result) > 0 and len(token) > 0):
             self.__result += " "
@@ -123,6 +127,14 @@ class ReversePolishNotationConverterTests(unittest.TestCase):
     def test_RemovesUnneccessaryParameters(self):
         self.when("( a * 3 ) + 4")
         self.then("a 3 * 4 +")
+        
+    def test_NecessaryParenthesesChangeOrderOfEveluation(self):
+        self.when("( 3 + 5 ) / 9")
+        self.then("3 5 + 9 /")
+        
+    def test_NecessaryParenthesesChangeOrderOfEveluation_AllFourOperators(self):
+        self.when("( 3 - 5 ) * ( 7 + 8 ) / 9")
+        self.then("3 5 - 7 8 + * 9 /")
             
     def setUp(self):
         self.converter = ReversePolishNotationConverter()
