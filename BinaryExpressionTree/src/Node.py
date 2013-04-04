@@ -15,12 +15,11 @@ class ValueNode:
 class OperatorNode(object):
     
     def __init__(self, operation):
-        self.__operation = operation
-        self.__left = None        
+        self.__operation = operation      
         
     @property
     def left(self):
-        pass
+        return self.__left
 
     @left.setter
     def left(self, node):
@@ -28,7 +27,7 @@ class OperatorNode(object):
         
     @property
     def right(self):
-        pass
+        return self.__right
     
     @right.setter
     def right(self, node):

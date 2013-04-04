@@ -8,12 +8,17 @@ from NodeParser import NodeParser
 
 class NodeParserTests(unittest.TestCase):
 
-    def test_parses_plus(self):
-        parser = NodeParser()
+    def setUp(self):
+        self.parser = NodeParser()
+
+    def test_parses_an_operator(self):
+        tree = self.parser.parse("1+2")
         
-        tree = parser.parse("1+2")
-        
-        self.assertEqual(3, tree.evaluate())
+        self.assertEqual(1, tree.left.evaluate())
+        self.assertEqual(2, tree.right.evaluate())
+
+    
+
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
