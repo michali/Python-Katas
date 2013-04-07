@@ -15,14 +15,13 @@ class ReversePolishNotationConverter(object):
         return self.__result
     
     def __initialise(self, expression):
-        expWithVal = "" if not expression else expression
-        self.__tokens = expWithVal.split()
+        self.__tokens = "" if not expression else expression
         self.__previousTokens = []
         self.__result = ""
         
     def __process_tokens(self):
         for current in self.__tokens:
-            if (self.__is_literal(current)):
+            if (self.__is_number(current)):
                 self.__append_token(current)
             elif self.__is_open_parentheses(current):
                 self.__handle_open_parentheses()
@@ -86,5 +85,5 @@ class ReversePolishNotationConverter(object):
             self.__result += " "
         self.__result += token;
 
-    def __is_literal(self, current):
-        return re.match("(\w+|\d+)", current) != None
+    def __is_number(self, current):
+        return re.match("\d+", current) != None
