@@ -58,7 +58,17 @@ class NodeParserTests(unittest.TestCase):
         self.assertEqual(2, tree.right.left.evaluate())
         self.assertEqual(8, tree.right.right.evaluate())
         self.assertEqual(1.25, tree.evaluate())    
-
+        
+    def test_parses_complex_with_brackets(self):
+        exp = "(2 + 7) * 4"
+        self.mock.transform.return_value = "2 7 + 4 *"
+        tree = self.parser.parse(exp)
+        
+        self.assertEqual(2, tree.left.left.evaluate())
+        self.assertEqual(7, tree.left.right.evaluate())
+        self.assertEqual(4, tree.right.evaluate())
+        self.assertEqual(36, tree.evaluate()) 
+        
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
     unittest.main()
