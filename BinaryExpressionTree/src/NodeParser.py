@@ -6,11 +6,15 @@ Created on 4 Nov 2012
 from Node import OperatorNode, ValueNode
 import re
 
-class NodeParser():
-    
+class NodeParser():    
+
+    def __get_operations(self):
+        return dict([("+", lambda x, y : x + y), ("-", lambda x, y : x - y), ("*", lambda x, y : x * y), ("/", lambda x, y : x / y)])
+        
     def __init__(self, rpnConverter):
         self.__rpnConverter = rpnConverter       
-        self.__buffer = []                
+        self.__buffer = []    
+        self.__operations = self.__get_operations()           
     
     def parse(self, expression):
         rpn_exp = self.__convert_to_rpn(expression)
@@ -32,7 +36,7 @@ class NodeParser():
         self.__add_node_to_buffer(value_node)       
 
     def __add_operator_node_from(self, token):
-        operator_node = OperatorNode(self.__create_operation(token))
+        operator_node = OperatorNode(self.__get_operation(token))
         operator_node.right = self.__buffer.pop()
         operator_node.left = self.__buffer.pop()
         self.__add_node_to_buffer(operator_node)    
@@ -46,12 +50,6 @@ class NodeParser():
     def __is_number(self, token):
         return re.match("\d+", token) != None
     
-    def __create_operation(self, token):
-        if token == "+":
-            return lambda x, y : x + y
-        if token == "-":
-            return lambda x, y : x - y
-        if token == "*":
-            return lambda x, y : x * y
-        return lambda x, y : x / y
+    def __get_operation(self, operator_token):
+        return self.__operations[operator_token]
             
